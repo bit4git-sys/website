@@ -1,29 +1,26 @@
-// api/contact.js - Vercel serverless function
+// api/contact.js - Vercel serverless function (ESM)
 
 const endpoint = process.env.CONTACT_ENDPOINT;
 
+// Helper to read request body in all cases
 async function parseBody(req) {
-  // If Vercel already parsed JSON:
   if (req.body && Object.keys(req.body).length > 0) {
     return req.body;
   }
 
-  // Otherwise, read raw stream
   return new Promise((resolve, reject) => {
     let data = "";
     req.on("data", chunk => {
       data += chunk;
     });
-    req.on("end", () =>  {
+    req.on("end", () => {
       if (!data) return resolve({});
-      try  {
-        // Try JSON first
+      try {
         resolve(JSON.parse(data));
-      } catch  (_) {
-        // Fallback: form-encoded string "a=1&b=2"
-        const  obj = {};
-        for (const pair of data.split("&")) {
-          const [k, v] = pair.split("=");
+      } catch (_) {
+        const obj = {};
+        for (const part of data.split("&")) {
+          const [k, v] = part.split("=");
           if (!k) continue;
           obj[decodeURIComponent(k)] = decodeURIComponent(v || "");
         }
@@ -34,24 +31,24 @@ async function parseBody(req) {
   });
 }
 
-module.exports = async  (req, res) => {
-  // Only allow POST from the frontend
+export default async function handler(req, res) {
+  // 1) Only allow POST
   if (req.method !== "POST") {
-    return  res
+    return res
       .status(405)
-      .json({ ok: false, error: "Method Not Allowed" });
+      .json({ ok: false, error: "Method Not Allowed", method: req.method });
   }
 
-  if  (!endpoint) {
-    return  res
+  // 2) Ensure env var exists
+  if (!endpoint) {
+    return res
       .status(500)
       .json({ ok: false, error: "Missing CONTACT_ENDPOINT" });
   }
 
-  try  {
+  try {
     const body = await parseBody(req);
 
-    // Build URLSearchParams for Apps Script
     const params = new URLSearchParams();
     for (const [key, value] of Object.entries(body)) {
       params.append(key, value == null ? "" : String(value));
@@ -59,7 +56,7 @@ module.exports = async  (req, res) => {
 
     const response = await fetch(endpoint, {
       method: "POST",
-      headers : {
+      headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
       body: params.toString(),
@@ -76,9 +73,9 @@ module.exports = async  (req, res) => {
     }
 
     return res.status(200).json({ ok: true });
-  } catch  (err) {
-    return  res
+  } catch (err) {
+    return res
       .status(500)
       .json({ ok: false, error: err.message || "Unknown error" });
   }
-};
+}

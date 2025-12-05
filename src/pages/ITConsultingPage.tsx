@@ -20,6 +20,7 @@ export default function ITConsultingPage() {
     const endpoint = import.meta.env.VITE_CONTACT_ENDPOINT;
     if (!endpoint) {
       console.warn('Missing VITE_CONTACT_ENDPOINT');
+      setSubmitStatus('error');
       return;
     }
     const params = new URLSearchParams();

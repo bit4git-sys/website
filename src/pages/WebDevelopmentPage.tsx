@@ -44,6 +44,7 @@ export default function WebDevelopmentPage() {
     const endpoint = import.meta.env.VITE_CONTACT_ENDPOINT;
     if (!endpoint) {
       console.warn('Missing VITE_CONTACT_ENDPOINT');
+      setSubmitStatus('error');
       return;
     }
     const payload = { ...contactForm, source: 'web-development', path: typeof window !== 'undefined' ? window.location.pathname : '' };

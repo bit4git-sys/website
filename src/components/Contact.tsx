@@ -32,6 +32,7 @@ export default function Contact() {
     const endpoint = import.meta.env.VITE_CONTACT_ENDPOINT;
     if (!endpoint) {
       console.warn('Missing VITE_CONTACT_ENDPOINT');
+      setSubmitStatus('error');
       return;
     }
     const payload = { ...formData, source: 'contact', path: typeof window !== 'undefined' ? window.location.pathname : '' };

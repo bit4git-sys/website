@@ -17,18 +17,12 @@ export default function ITConsultingPage() {
   const [focusField, setFocusField] = useState<string | null>(null);
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const endpoint = import.meta.env.VITE_CONTACT_ENDPOINT;
-    if (!endpoint) {
-      console.warn('Missing VITE_CONTACT_ENDPOINT');
-      setSubmitStatus('error');
-      return;
-    }
-    const params = new URLSearchParams();
+    const endpoint = '/api/contact';
     const payload = { ...formData, source: 'it-consulting', path: typeof window !== 'undefined' ? window.location.pathname : '' };
-    Object.entries(payload).forEach(([k, v]) => params.append(k, String(v ?? '')));
     try {
       setSubmitStatus('submitting');
-      await fetch(endpoint, { method: 'POST', body: params, mode: 'no-cors', headers: { 'Content-Type': 'application/x-www-form-urlencoded' } });
+      const res = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+      if (!res.ok) throw new Error('bad status');
       setFormData({ name: '', email: '', phone: '', service: '', message: '' });
       setSubmitStatus('success');
     } catch {

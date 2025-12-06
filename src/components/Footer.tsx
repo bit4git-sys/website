@@ -1,5 +1,5 @@
 import { Linkedin, Instagram, Youtube, Mail, ArrowUp } from 'lucide-react';
-import logoImg from '../logo/bit4git logo.png';
+import logoImg from '../logo/logo for website.png';
 
 export default function Footer() {
   const scrollToTop = () => {

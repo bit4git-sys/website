@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Menu, X, Moon, Sun, ChevronDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { services } from '../data/services';
-import logoImg from '../logo/bit4git logo.png';
+import logoImg from '../logo/logo for website.png';
 
 interface NavbarProps {
   darkMode: boolean;

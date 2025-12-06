@@ -1,4 +1,5 @@
 import { Linkedin, Instagram, Youtube, Mail, ArrowUp } from 'lucide-react';
+import logoImg from '../logo/bit4git logo.png';
 
 export default function Footer() {
   const scrollToTop = () => {
@@ -25,9 +26,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-12">
           <div className="lg:col-span-2">
             <div className="group mb-6">
-              <h2 className="text-4xl font-bold text-[#D9E8FF] group-hover:scale-105 transition-transform duration-300 inline-block">
-                Bit4Git
-              </h2>
+              <img src={logoImg} alt="Bit4Git" className="h-12 w-auto inline-block transition-transform duration-300 group-hover:scale-105" />
               <div className="h-1 w-0 bg-gradient-to-r from-[#1C2340] to-[#2B3561] transition-all duration-300 group-hover:w-32"></div>
             </div>
             <p className="text-[#BFC8D9] mb-6 leading-relaxed">

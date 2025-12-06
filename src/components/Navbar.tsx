@@ -54,7 +54,11 @@ export default function Navbar({ darkMode, setDarkMode }: NavbarProps) {
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="group cursor-pointer">
-            <img src={logoImg} alt="Bit4Git" className="h-10 w-auto transition-all duration-300 group-hover:scale-105" />
+            <img
+              src={logoImg}
+              alt="Bit4Git"
+              className="h-10 md:h-12 w-auto transition-all duration-300 group-hover:scale-105 brightness-110 contrast-125 drop-shadow"
+            />
             <div className="h-0.5 w-0 bg-gradient-to-r from-[#1C2340] to-[#2B3561] transition-all duration-300 group-hover:w-full"></div>
           </div>
 

@@ -12,6 +12,16 @@ import ITConsultingPage from './pages/ITConsultingPage.tsx';
 import CareersPage from './pages/CareersPage.tsx';
 import './index.css';
 
+const faviconUrl = new URL('./logo/bit4git logo.png', import.meta.url).href;
+let faviconLink = document.querySelector('link[rel="icon"]') as HTMLLinkElement | null;
+if (!faviconLink) {
+  faviconLink = document.createElement('link');
+  faviconLink.rel = 'icon';
+  document.head.appendChild(faviconLink);
+}
+faviconLink.type = 'image/png';
+faviconLink.href = faviconUrl;
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>

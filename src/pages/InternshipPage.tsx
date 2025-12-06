@@ -30,35 +30,14 @@ export default function InternshipPage() {
       setStatus('error');
       setErrorMsg('Email addresses do not match');
     } else {
-      e.preventDefault();
       setConfirmError('');
       setStatus('submitting');
       setErrorMsg('');
-      const fd = new FormData(form);
-      fd.set('dr', dr);
-      fd.set('roll', roll);
-      const body = new URLSearchParams();
-      for (const [key, value] of fd as any) {
-        body.append(key, value as string);
-      }
-      try {
-        const res = await fetch(GOOGLE_SCRIPT_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: body.toString(),
-          mode: 'cors',
-        });
-        if (res.ok) {
-          setStatus('success');
-          setTimeout(() => navigate('/'), 3000);
-        } else {
-          setStatus('error');
-          setErrorMsg('Submission failed. Please try again.');
-        }
-      } catch {
-        setStatus('error');
-        setErrorMsg('Network error. Please try again.');
-      }
+      const drInput = form.elements.namedItem('dr') as HTMLInputElement | null;
+      const rollInput = form.elements.namedItem('roll') as HTMLInputElement | null;
+      if (drInput) drInput.value = dr;
+      if (rollInput) rollInput.value = roll;
+      // Allow default submission to hidden iframe; success handled in iframe onLoad
     }
   };
 
@@ -100,6 +79,7 @@ export default function InternshipPage() {
                 className="mt-6 space-y-5"
                 method="POST"
                 action={GOOGLE_SCRIPT_URL}
+                target="hidden_iframe"
                 onSubmit={onSubmit}
               >
                 <div>
@@ -219,6 +199,16 @@ export default function InternshipPage() {
                   <a href="/careers" className="w-full md:w-auto rounded-md bg-[#131A2C] text-[#BFC8D9] px-4 py-2 text-center border border-[#2B3561]">Back</a>
                 </div>
               </form>
+              <iframe
+                name="hidden_iframe"
+                className="hidden"
+                onLoad={() => {
+                  if (status === 'submitting') {
+                    setStatus('success');
+                    setTimeout(() => navigate('/'), 3000);
+                  }
+                }}
+              />
               {status==='error' && (
                 <div className="mt-4 text-sm text-red-500">{errorMsg}</div>
               )}

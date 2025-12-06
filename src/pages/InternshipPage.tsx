@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import logoImg from '../logo/logo for website.png';
@@ -6,25 +7,58 @@ import logoImg from '../logo/logo for website.png';
 export default function InternshipPage() {
   const [darkMode, setDarkMode] = useState(true);
   const [confirmError, setConfirmError] = useState('');
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  const [errorMsg, setErrorMsg] = useState('');
   const params = useMemo(() => new URLSearchParams(window.location.search), []);
   const [dr, setDr] = useState('');
   const [roll, setRoll] = useState('');
   const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxXSqV_oxAYdx-BoiXej3VTP89iIE8nW_WA76Nm-kLdPMKDZ0Cg6ckZK9DUHoDh4xO1/exec';
+  const navigate = useNavigate();
 
   useEffect(() => {
     setDr(params.get('dr') || '');
     setRoll(params.get('roll') || '');
   }, [params]);
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     const form = e.currentTarget;
     const email = (form.elements.namedItem('email') as HTMLInputElement)?.value || '';
     const confirmEmail = (form.elements.namedItem('confirmEmail') as HTMLInputElement)?.value || '';
     if (email.trim() !== confirmEmail.trim()) {
       e.preventDefault();
       setConfirmError('Email addresses do not match');
+      setStatus('error');
+      setErrorMsg('Email addresses do not match');
     } else {
+      e.preventDefault();
       setConfirmError('');
+      setStatus('submitting');
+      setErrorMsg('');
+      const fd = new FormData(form);
+      fd.set('dr', dr);
+      fd.set('roll', roll);
+      const body = new URLSearchParams();
+      for (const [key, value] of fd as any) {
+        body.append(key, value as string);
+      }
+      try {
+        const res = await fetch(GOOGLE_SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: body.toString(),
+          mode: 'cors',
+        });
+        if (res.ok) {
+          setStatus('success');
+          setTimeout(() => navigate('/'), 3000);
+        } else {
+          setStatus('error');
+          setErrorMsg('Submission failed. Please try again.');
+        }
+      } catch {
+        setStatus('error');
+        setErrorMsg('Network error. Please try again.');
+      }
     }
   };
 
@@ -181,10 +215,20 @@ export default function InternshipPage() {
                 <input type="hidden" name="roll" id="roll" value={roll} />
 
                 <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-3">
-                  <button type="submit" className="w-full md:w-auto rounded-md bg-gradient-to-r from-[#3BAFDA] to-[#8C75FF] text-white px-4 py-2 shadow-softGlow hover:scale-105 transition-transform">Submit</button>
+                  <button type="submit" className="w-full md:w-auto rounded-md bg-gradient-to-r from-[#3BAFDA] to-[#8C75FF] text-white px-4 py-2 shadow-softGlow hover:scale-105 transition-transform disabled:opacity-60" disabled={status==='submitting'}>{status==='submitting' ? 'Submitting...' : 'Submit'}</button>
                   <a href="/careers" className="w-full md:w-auto rounded-md bg-[#131A2C] text-[#BFC8D9] px-4 py-2 text-center border border-[#2B3561]">Back</a>
                 </div>
               </form>
+              {status==='error' && (
+                <div className="mt-4 text-sm text-red-500">{errorMsg}</div>
+              )}
+              {status==='success' && (
+                <div className="mt-6 rounded-2xl bg-[#0e1628] border border-[#223055] p-6 text-center">
+                  <div className="text-2xl font-bold bg-gradient-to-r from-[#3BAFDA] to-[#8C75FF] bg-clip-text text-transparent">Submission Successful</div>
+                  <div className="mt-2 text-[#BFC8D9]">Thank you for applying! Redirecting to home…</div>
+                  <a href="/" className="inline-block mt-4 rounded-md bg-gradient-to-r from-[#3BAFDA] to-[#8C75FF] text-white px-4 py-2 shadow-softGlow">Go to Home</a>
+                </div>
+              )}
             </div>
           </div>
         </div>

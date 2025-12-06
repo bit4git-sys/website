@@ -26,25 +26,22 @@ export default function Testimonials() {
 
   const testimonials = [
     {
-      name: 'Client Review',
-      role: '',
+      name: 'Aarav Kumar',
+      role: 'Hyderabad, India',
       content: 'Bit4Git transformed our digital presence and delivered a high-quality website with exceptional performance.',
       rating: 5,
-      image: 'https://images.pexels.com/photos/3756681/pexels-photo-3756681.jpeg?auto=compress&cs=tinysrgb&w=200',
     },
     {
-      name: 'Client Review',
-      role: '',
+      name: 'Ananya Iyer',
+      role: 'Bengaluru, India',
       content: 'Their cloud and IT services helped us scale without downtime.',
       rating: 5,
-      image: 'https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=200',
     },
     {
-      name: 'Client Review',
-      role: '',
+      name: 'Vikram Reddy',
+      role: 'Mumbai, India',
       content: 'Professional, secure, and highly reliable. A perfect partner for cybersecurity services.',
       rating: 5,
-      image: 'https://images.pexels.com/photos/3756679/pexels-photo-3756679.jpeg?auto=compress&cs=tinysrgb&w=200',
     },
   ];
 
@@ -100,13 +97,9 @@ export default function Testimonials() {
                     "{testimonial.content}"
                   </p>
 
-                  <div className="flex items-center gap-4">
-                    <div className="h-16 w-16 rounded-full overflow-hidden ring-2 ring-[#2B3561]">
-                      <img
-                        src={testimonial.image}
-                        alt={testimonial.name}
-                        className="w-full h-full object-cover"
-                      />
+                    <div className="flex items-center gap-4">
+                    <div className="h-16 w-16 rounded-full ring-2 ring-[#2B3561] bg-gradient-to-br from-[#1C2340] to-[#2B3561] flex items-center justify-center text-[#D9E8FF] font-bold">
+                      {testimonial.name.split(' ').map((n) => n[0]).slice(0, 2).join('').toUpperCase()}
                     </div>
 
                     <div className="flex-1">

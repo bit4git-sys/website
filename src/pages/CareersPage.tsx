@@ -25,7 +25,7 @@ const openings: Opening[] = [
     skills: ['HTML', 'CSS', 'JavaScript', 'React.js'],
     startDate: 'December 11, 2025',
     duration: '1 Month',
-    applyPath: '/#contact',
+    applyPath: '/internship?dr=rdx-1&roll=wdi1',
   },
   {
     title: 'Cybersecurity Intern',
@@ -35,7 +35,7 @@ const openings: Opening[] = [
     skills: ['Networking', 'Cyber Hygiene', 'Wireshark', 'Linux'],
     startDate: 'December 11, 2025',
     duration: '1 Month',
-    applyPath: '/#contact',
+    applyPath: '/internship?dr=rdx-1&roll=wdi1',
   },
 ];
 

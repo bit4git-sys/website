@@ -10,7 +10,6 @@ import Testimonials from './components/Testimonials';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import Loader from './components/Loader';
-import LottieBackground from './components/LottieBackground';
 
 function App() {
   // Show loader on first visit in a tab AND on hard reloads
@@ -45,9 +44,7 @@ function App() {
 
   return (
     <div className={`min-h-screen transition-colors duration-500 ${darkMode ? 'dark' : ''}`}>
-      <div className="fixed inset-0 pointer-events-none -z-10">
-        <LottieBackground />
-      </div>
+      
       <AnimatePresence mode="wait">
         {loading ? (
           <motion.div key="loader" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>

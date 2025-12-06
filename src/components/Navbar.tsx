@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import { Menu, X, Moon, Sun, ChevronDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { services } from '../data/services';
-import logoImg from '../logo/bit4git logo.png';
 
 interface NavbarProps {
   darkMode: boolean;
@@ -54,7 +53,15 @@ export default function Navbar({ darkMode, setDarkMode }: NavbarProps) {
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="group cursor-pointer">
-            <img src={logoImg} alt="Bit4Git" className="h-10 w-auto transition-all duration-300 group-hover:scale-105" />
+            <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" className="h-10 w-auto transition-all duration-300 group-hover:scale-105">
+              <defs>
+                <linearGradient id="nav-g" x1="0" x2="1" y1="0" y2="1">
+                  <stop offset="0" stopColor="#3BAFDA" />
+                  <stop offset="1" stopColor="#8C75FF" />
+                </linearGradient>
+              </defs>
+              <path d="M34 6l-18 26h12l-4 20 22-28H36l6-18z" fill="url(#nav-g)" />
+            </svg>
             <div className="h-0.5 w-0 bg-gradient-to-r from-[#1C2340] to-[#2B3561] transition-all duration-300 group-hover:w-full"></div>
           </div>
 

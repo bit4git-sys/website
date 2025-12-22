@@ -1,6 +1,7 @@
 import { ArrowRight, Code2, Cloud, Shield, Smartphone, Server, Sparkles } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
  
 
 export default function Hero() {
@@ -156,6 +157,13 @@ export default function Hero() {
             <a href="#contact" className="group px-8 py-4 rounded-full border-2 border-[#2B3561] text-[#3BAFDA] font-semibold hover:bg-[#1C2340] transition-all duration-300 hover:scale-105 shadow-soft glow-purple">
               Contact Us
             </a>
+            <Link to="/careers" className="group relative px-8 py-4 rounded-full bg-gradient-to-r from-[#3BAFDA] to-[#8C75FF] text-white font-semibold overflow-hidden transition-all duration-300 hover:scale-105 shadow-softGlow btn-hoverGlow glow-cyan">
+              <span className="relative z-10 flex items-center justify-center gap-2">
+                Enroll Now
+                <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+              </span>
+              <div className="absolute inset-0 bg-gradient-to-r from-[#2B3561] to-[#1C2340] opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            </Link>
           </motion.div>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.7 }} className="mt-8 flex flex-wrap justify-center gap-3">
